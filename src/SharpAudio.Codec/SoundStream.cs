@@ -82,6 +82,8 @@ namespace SharpAudio.Codec
                 }
             }
 
+            sink.Start();
+
             _streamThread = new Thread(MainLoop);
             _streamThread.Name = "SoundStream";
             _streamThread.Start();

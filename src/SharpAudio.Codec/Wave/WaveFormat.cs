@@ -127,11 +127,22 @@ namespace SharpAudio.Codec.Wave
         {
             var data = new WaveData();
             data.SubChunkID = reader.ReadFourCc();
+            data.SubChunkSize = reader.ReadUInt32();
+
+            // skip audio info for now
+            if (data.SubChunkID == "LIST")
+            {
+                reader.ReadBytes((int)data.SubChunkSize);
+
+                data.SubChunkID = reader.ReadFourCc();
+                data.SubChunkSize = reader.ReadUInt32();
+            }
+
             if (data.SubChunkID != "data")
             {
                 throw new InvalidDataException("Invalid or missing .wav file data chunk!");
             }
-            data.SubChunkSize = reader.ReadUInt32();
+            
             return data;
         }
     };

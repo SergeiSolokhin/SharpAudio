@@ -32,7 +32,7 @@ namespace SharpAudio.Codec
             _submixer = submixer;
             _sinkThread = new Thread(MainLoop);
             _sinkThread.Name = "SoundSink";
-            _sinkThread.Start();
+            //_sinkThread.Start();
         }
 
         public AudioEngine Engine { get; }
@@ -40,6 +40,11 @@ namespace SharpAudio.Codec
         public AudioSource Source { get; private set; }
 
         public bool NeedsNewSample => _circBuffer.Length < _silenceData.Length;
+
+        public void Start()
+        {
+            _sinkThread.Start();
+        }
 
         public void Dispose()
         {
